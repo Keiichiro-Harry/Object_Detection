@@ -13,9 +13,9 @@ blank = 5 #もとの画像より5pxずつ余白をとる
 outside = 3 #バウンディングボックスは対象より3px離れて作図
 
 # M×Mの正方形の画像を読み込み
-img_H = cv2.imread('H.png')
-img_S = cv2.imread('S.png')
-img_U = cv2.imread('U.png')
+img_H = cv2.imread('imgs/H.png')
+img_S = cv2.imread('imgs/S.png')
+img_U = cv2.imread('imgs/U.png')
 imgs=[img_H, img_S, img_U]
 
 # N枚の画像を生成し、フォルダに保存
@@ -44,7 +44,7 @@ for i in range(N):
     
     # 台形の形状に基づいて変換行列を求める
     dst_points = np.float32([left_top, left_bottom, right_bottom, right_top])
-    src_points = np.float32([(0, 0), (0, M-1), (M-1, M-1), (M-1, M-1)])
+    src_points = np.float32([(0, 0), (0, M-1), (M-1, M-1), (M-1, 0)])
     MMM = cv2.getPerspectiveTransform(src_points, dst_points)
 
     # 元の画像を台形に変換
