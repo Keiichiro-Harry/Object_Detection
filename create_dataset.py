@@ -4,11 +4,12 @@ import numpy as np
 from PIL import Image, ImageDraw
 
 # パラメータの設定
-N = 432 # 生成する画像数(画像1枚あたり)(=dict_x・dict_y・2(左右)にすると偏りがない)
 bbox_color = (0, 0, 255) # 長方形のバウンディングボックスの色
 M = 64 # 画像の一辺の長さ
 dist_x = 18 #歪み値x
 dist_y = 12 #歪み値y
+N = dist_x * dist_y * 2 # 1元画像あたりの生成する枚数(=432)
+#整数値を入れてもいいが、dict_x・dict_y・2(左右)にすると偏りがない
 blank = 5 #もとの画像より5pxずつ余白をとる
 outside = 3 #バウンディングボックスは対象より3px離れて作図
 
@@ -28,7 +29,7 @@ for i in range(N):
         right_bottom = (M-1-blank, M-1-blank)
         # 左上と左下の座標を決定
         move_x = i % dist_x
-        move_y = i % dist_y
+        move_y = i / dist_x
         left_top = (move_x + blank, move_y + blank)
         left_bottom = (move_x + blank, M-1-blank-move_y)
     else:
@@ -36,8 +37,8 @@ for i in range(N):
         left_top = (blank, blank)
         left_bottom = (blank, M-1-blank)
         # 右上と右下の座標を決定
-        move_x = i % dist_x
-        move_y = i % dist_y
+        move_x = (i - N/2) % dist_x
+        move_y = (i - N/2) / dist_x
 
         right_top = (M-1-blank-move_x, move_y + blank)
         right_bottom = (M-1-blank-move_x, M-1-blank-move_y)
